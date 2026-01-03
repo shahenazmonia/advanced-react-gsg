@@ -140,6 +140,8 @@ A Provider supplies that data to the component tree.
 ### Dependency Inversion Principle
 High-level modules (business logic and workflows) should not depend directly on low-level modules (implementation details).
 Instead, both should depend on abstractions.
+<img width="600" height="388" alt="HighLevelDesign" src="https://github.com/user-attachments/assets/4dd39e35-fd2d-4e69-a318-5818555b7f57" />
+
 
 ### TanStack Query
 
