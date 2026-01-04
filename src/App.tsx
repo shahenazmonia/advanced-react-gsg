@@ -1,11 +1,7 @@
-import "./App.css";
+import { Products } from "./modules/Products/views";
 
 function App() {
-  return (
-    <>
-      <div> Advanced React </div>
-    </>
-  );
+  return <Products />;
 }
 
 export default App;
