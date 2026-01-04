@@ -1,5 +1,5 @@
 # Advanced React
-This repository is designed both as a learning course. The goal is to teach scalable React architecture, modern tooling, and real-world best practices used in production applications.
+This repository is a learning course. The goal is to teach scalable React architecture, modern tooling, and real-world best practices used in production applications.
 
 ## What You Will Learn
 By the end of this course, you will understand:
