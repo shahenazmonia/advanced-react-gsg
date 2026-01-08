@@ -221,7 +221,7 @@ Mutations keep server data and UI state synchronized by invalidating and refetch
 ```js
 const queryClient = useQueryClient()
 
-const { data, isLoading } = useMutation({
+const { mutate, isError, isPending } = useMutation({
   mutationFn: deleteProduct,
   onSuccess: () => {
     queryClient.invalidateQueries(['products'])
