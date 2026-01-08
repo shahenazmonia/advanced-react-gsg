@@ -137,13 +137,107 @@ A Provider supplies that data to the component tree.
     - Data needed by many unrelated components
     - Shared logic that should be centralized
 
-### Dependency Inversion Principle
-High-level modules (business logic and workflows) should not depend directly on low-level modules (implementation details).
+### Dependency Inversion Principle (DIP)
+The Dependency Inversion Principle states that high-level modules should not depend on low-level implementation details.
 Instead, both should depend on abstractions.
+
+In React terms
+* High-level modules → React components, hooks, pages, business logic
+* Low-level modules → API clients, fetch, axios, localStorage, analytics
+* Abstractions → TypeScript interfaces, types, contracts, adapters
+
+* Why this matters
+
+By applying DIP, React components remain unaware of how data is fetched or stored — they only know what they need.
+They only depend on well-defined interfaces, allowing implementations to change without affecting the UI.
+
+
+As a summary: in a React + TypeScript project, Dependency Inversion means your components and hooks depend on TypeScript interfaces, while concrete implementations (API, storage) are injected from the outside.
+
+Benefits of Applying DIP in React
+- Enhanced Flexibility: With components not directly tied to specific implementations, changes in one part of an application have a reduced risk of unintentionally affecting other parts.
+- Improved Testability: Components that depend on abstractions can easily be tested by mocking these abstractions.
+- Increased Modularity: When components are decoupled, they can be developed, tested, and scaled independently, promoting a more modular application architecture.
+
 <img width="600" height="388" alt="HighLevelDesign" src="https://github.com/user-attachments/assets/4dd39e35-fd2d-4e69-a318-5818555b7f57" />
 
 
+##### Data Transfer Object
+DTO is an object that is used to encapsulate data. DTOs and mappers are key tools that enforce DIP by preventing domain and UI layers from depending on external data formats, basically, it isolates the UI and domain logic from external API response formats
+
+
 ### TanStack Query
+TanStack Query (formerly React Query) is a server-state management library for modern web apps. It solves a very specific problem: fetching, caching, synchronizing, and updating asynchronous data from a server, without you having to manually manage loading states, caching logic, retries, or background updates.
+
+
+##### What Tanstack Query solves:
+- Data fetched from APIs
+- Can become stale
+- Needs caching
+- Needs refetching
+- Needs background syncing
+- Needs error & loading handling
+
+##### Setup
+
+```js
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+const queryClient = new QueryClient()
+
+function App() {
+  return <QueryClientProvider client={queryClient}>...</QueryClientProvider>
+}
+```
+
+##### Query (read operation)
+
+```js
+const { data, error, isLoading, isFetching } = useQuery({
+  queryKey: ['products'],
+  queryFn: fetchProducts,
+  staleTime: 1000 * 60, // 1 minute
+  refetchOnWindowFocus: false
+})
+```
+
+##### Mutations (Write Operations)
+
+A mutation is a create/update/delete operation.
+
+Mutations keep server data and UI state synchronized by invalidating and refetching affected queries.
+
+```js
+const queryClient = useQueryClient()
+
+const { data, isLoading } = useMutation({
+  mutationFn: deleteProduct,
+  onSuccess: () => {
+    queryClient.invalidateQueries(['products'])
+  },
+ onError: (_err, _newTodo, context) => {
+   queryClient.setQueryData(['products'], context.previous)
+},
+})
+```
+
+
+##### Infinite Scroll 
+Supports pagination and infinite scrolling with built-in cache management.
+
+```js
+   const { data, isLoading } = useInfiniteQuery({
+    queryKey: ['products'],
+    queryFn: fetchProducts,
+    getNextPageParam: (lastPage) => lastPage.nextCursor,
+    })
+```
+
+##### Devtools
+Provides insight into cache state, query lifecycles, and background refetching.
+
+```js
+<ReactQueryDevtools />
+```
 
 ### Design Patterns
 
