@@ -163,7 +163,15 @@ Benefits of Applying DIP in React
 
 
 ##### Data Transfer Object
-DTO is an object that is used to encapsulate data. DTOs and mappers are key tools that enforce DIP by preventing domain and UI layers from depending on external data formats, basically, it isolates the UI and domain logic from external API response formats
+DTO is an object that is used to encapsulate data. DTOs and mappers are key tools that enforce DIP by preventing domain and UI layers from depending on external data formats. Basically, it isolates the UI and domain logic from external API response formats
+
+<img width="1186" height="714" alt="Screenshot 2026-01-05 at 5 06 57 PM" src="https://github.com/user-attachments/assets/5f832fb9-7f2d-48e5-8b57-ddb5db7e91d7" />
+
+<img width="1222" height="998" alt="Screenshot 2026-01-05 at 5 06 39 PM" src="https://github.com/user-attachments/assets/0c63d570-708b-4c77-a79a-37f3d81cafcc" />
+
+<img width="872" height="630" alt="Screenshot 2026-01-05 at 5 08 28 PM" src="https://github.com/user-attachments/assets/4f2e8dcf-398e-4827-97f8-fbcfc4770a43" />
+
+<img width="1014" height="494" alt="Screenshot 2026-01-05 at 5 07 33 PM" src="https://github.com/user-attachments/assets/7ed91783-5976-4eb0-95ca-3c8ac4f26847" />
 
 
 ### TanStack Query
