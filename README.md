@@ -188,6 +188,7 @@ TanStack Query (formerly React Query) is a server-state management library for m
 
 ##### Setup
 
+Documentation: https://tanstack.com/query/latest/docs/framework/react/reference/useQuery
 ```js
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 const queryClient = new QueryClient({
