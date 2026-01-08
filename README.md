@@ -190,7 +190,9 @@ TanStack Query (formerly React Query) is a server-state management library for m
 
 ```js
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { refetchOnWindowFocus: false, retry: false } },
+});
 
 function App() {
   return <QueryClientProvider client={queryClient}>...</QueryClientProvider>
@@ -204,7 +206,8 @@ const { data, error, isLoading, isFetching } = useQuery({
   queryKey: ['products'],
   queryFn: fetchProducts,
   staleTime: 1000 * 60, // 1 minute
-  refetchOnWindowFocus: false
+  select: (data: TData) => unknown
+// This option can be used to transform or select a part of the data returned by the query function. It affects the returned data value, but does not affect what gets stored in the query cache.
 })
 ```
 
