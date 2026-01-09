@@ -245,7 +245,7 @@ Supports pagination and infinite scrolling with built-in cache management.
 ```
 
 ##### Devtools
-Provides insight into cache state, query lifecycles, and background refetching.
+Provides insight into cache state, query lifecycle, and background refetching.
 
 ```js
 <ReactQueryDevtools />
