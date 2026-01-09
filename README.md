@@ -159,10 +159,12 @@ Benefits of Applying DIP in React
 - Improved Testability: Components that depend on abstractions can easily be tested by mocking these abstractions.
 - Increased Modularity: When components are decoupled, they can be developed, tested, and scaled independently, promoting a more modular application architecture.
 
-<img width="600" height="388" alt="HighLevelDesign" src="https://github.com/user-attachments/assets/4dd39e35-fd2d-4e69-a318-5818555b7f57" />
+<img width="716" height="281" alt="Dependency_inversion" src="https://github.com/user-attachments/assets/eff87e4d-e9f8-4161-897a-166368132a41" />
+
+![https___dev-to-uploads s3 amazonaws com_uploads_articles_56xle6db4bhlr5hdonqz](https://github.com/user-attachments/assets/8bb3f04d-28da-47c5-af17-d84c2366f9a1)
 
 
-##### Data Transfer Object
+#### Data Transfer Object
 DTO is an object that is used to encapsulate data. DTOs and mappers are key tools that enforce DIP by preventing domain and UI layers from depending on external data formats. Basically, it isolates the UI and domain logic from external API response formats
 
 <img width="1186" height="714" alt="Screenshot 2026-01-05 at 5 06 57 PM" src="https://github.com/user-attachments/assets/5f832fb9-7f2d-48e5-8b57-ddb5db7e91d7" />
