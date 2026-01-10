@@ -253,6 +253,81 @@ Provides insight into cache state, query lifecycle, and background refetching.
 <ReactQueryDevtools />
 ```
 
+### Tanstack Router
+Type-safe Routing for React and Solid applications
+
+A powerful React router for client-side. Fully type-safe APIs, first-class search-params for managing state in the URL and seamless integration with the existing React ecosystem
+
+Documentation: https://tanstack.com/router/latest
+
+Its core goals are:
+
+- Full TypeScript safety
+- Predictable routing
+- First-class data loading
+- Tight integration with TanStack Query
+- Explicit architecture over magic
+
+Unlike React Router, TanStack Router treats routing as part of your application architecture, not just URL matching.
+
+```js
+const userRoute = createRoute({
+  path: '/users/$userId',
+})
+
+// userId is typed everywhere. You cannot navigate incorrectly
+
+navigate({ to: '/users/$userId', params: { userId: '123' } })
+
+```
+
+```js
+import { createRootRoute, createRoute, createRouter, RouterProvider } from '@tanstack/react-router'
+
+const rootRoute = createRootRoute({
+  component: Layout,
+  notFoundComponent: () => <Navigate to="/" />,
+});
+
+export const productsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/",
+  component: Products,
+});
+
+const routeTree = rootRoute.addChildren([productsRoute])
+
+const router = createRouter({ routeTree, notFoundMode: "root" })
+
+export default function App() {
+  return <RouterProvider router={router} />
+}
+```
+
+Registering the Router Type (Required for Type Safety)
+
+To enable full type safety in TanStack Router, you must explicitly register the router instance with TypeScript.
+
+TanStack Router relies on TypeScript module augmentation to understand:
+
+- Which routes exist
+- What parameters each route requires
+- Which paths are valid navigation targets
+
+Without this registration, hooks like useNavigate fall back to untyped behavior, allowing any string to be used as a route.
+
+```js
+declare module "@tanstack/react-router" {
+  interface Register {
+    router: typeof router;
+  }
+}
+```
+
+This declaration tells TypeScript:
+
+“This is the router instance used by the application — use its route definitions to type navigation, params, and loaders.”
+
 ### Design Patterns
 
 ### Feature Flags
