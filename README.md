@@ -142,7 +142,7 @@ The Dependency Inversion Principle states that high-level modules should not dep
 Instead, both should depend on abstractions.
 
 In React terms
-* High-level modules → React components, hooks, pages, business logic
+* High-level modules → React components, hooks, and pages
 * Low-level modules → API clients, fetch, axios, localStorage, analytics
 * Abstractions → TypeScript interfaces, types, contracts, adapters
 
