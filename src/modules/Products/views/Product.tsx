@@ -9,8 +9,19 @@ import {
   Text,
 } from "@mantine/core";
 import type { Product as ProductProps } from "../entities/Product";
+import { useDeleteProduct } from "../hooks/useDeleteProduct";
 
 export const Product = ({ product }: { product: ProductProps }) => {
+  const { deleteProduct, isSuccess } = useDeleteProduct({
+    onSuccess: () => {
+      console.log("Product deleted successfully");
+    },
+  });
+
+  if (isSuccess) {
+    return null;
+  }
+
   return (
     <Grid.Col span={4} key={product.id}>
       <Card shadow="sm" padding="lg" radius="md" withBorder>
@@ -29,6 +40,15 @@ export const Product = ({ product }: { product: ProductProps }) => {
 
         <Button color="blue" fullWidth mt="md" radius="md">
           Order Now
+        </Button>
+        <Button
+          color="red"
+          fullWidth
+          mt="md"
+          radius="md"
+          onClick={() => deleteProduct(product.id)}
+        >
+          Delete
         </Button>
       </Card>
     </Grid.Col>

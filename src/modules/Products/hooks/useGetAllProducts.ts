@@ -7,6 +7,9 @@ type SelectQueryData = {
   productsWithDiscountHigherThan10: Product[];
   productsWithDiscountLowerThan10: Product[];
 };
+
+const Get_ALL_PRODUCTS_QUERY_KEY = "products";
+
 export const useGetAllProducts = () => {
   const { getAll } = useProducts();
   const {
@@ -18,7 +21,7 @@ export const useGetAllProducts = () => {
     error,
     isLoading,
   } = useQuery({
-    queryKey: ["products"],
+    queryKey: [Get_ALL_PRODUCTS_QUERY_KEY],
     queryFn: getAll,
     staleTime: 1000 * 60,
     select: (data: Product[]): SelectQueryData => {
@@ -42,3 +45,5 @@ export const useGetAllProducts = () => {
     isLoading,
   };
 };
+
+useGetAllProducts.queryKey = Get_ALL_PRODUCTS_QUERY_KEY;
