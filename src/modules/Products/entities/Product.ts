@@ -7,6 +7,7 @@ export type Product = {
   image: string;
   isAvailable: boolean;
   hasDiscounts: boolean;
+  discountPercentage: number;
   reviews: Review[];
 };
 
