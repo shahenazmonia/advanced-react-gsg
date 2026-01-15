@@ -330,7 +330,133 @@ This declaration tells TypeScript:
 
 ### Design Patterns
 
+Design patterns in React are proven, reusable ways to structure components and manage logic so your app stays scalable, readable, and easy to maintain.
+
+#### Some name of Design Patterns
+- Compound Components
+- Hooks Composition
+- Higher-Order Components (HOC)
+- Context Provider Pattern
+- Dependency Injection (via Context)
+- Lifting State Up
+- Polling Pattern
+- Memoization (React.memo, useMemo, useCallback)
+- Headless Component Pattern
+
+
+
+Slot / Children-as-API Pattern
+Examples: https://refine.dev/blog/react-design-patterns/#introduction
+
+
 ### Feature Flags
+
+Feature flags (also known as feature toggles or feature switches) are a software development technique that allows you to enable or disable features in your application without deploying new code. They act as conditional statements that control whether specific functionality is visible or active for users.
+
+#### What Are Feature Flags?
+
+At their core, feature flags are simple boolean conditions wrapped around features:
+
+```js
+function ProductList() {
+  const { isEnabled } = useFeatureFlag('new-product-ui');
+  
+  if (isEnabled) {
+    return <NewProductList />;
+  }
+  
+  return <OldProductList />;
+}
+```
+
+Feature flags decouple deployment from release — you can deploy code with features turned off, then enable them remotely when ready.
+
+#### Types of Feature Flags
+
+1. **Release Flags (Temporary)**
+   - Control gradual rollout of new features
+   - Should be removed after full release
+   - Example: Rolling out a redesigned checkout page
+
+2. **Experiment Flags (Temporary)**
+   - Used for A/B testing and experiments
+   - Measure impact of different implementations
+   - Removed after experiment concludes
+   - Example: Testing two different pricing displays
+
+3. **Permission Flags (Long-lived)**
+   - Control access based on user roles or subscriptions
+   - Example: Premium features, beta access, regional availability
+
+
+#### Why Use Feature Flags?
+
+**Benefits:**
+
+ **Reduced Risk**
+   - Test features with small user groups before full release
+   - Instant rollback without code deployment
+   - No need for hotfix deployments
+
+ **Faster Development**
+   - Merge code continuously without waiting for feature completion
+   - Multiple teams work on different features in parallel
+   - No long-lived feature branches
+
+
+**Basic Implementation:**
+
+```js
+import { createContext, useContext } from 'react';
+
+type FeatureFlags = {
+  isNewProductsUIEnabled: boolean;
+};
+
+const FeatureFlagContext = createContext<FeatureFlags | null>(null);
+
+export function FeatureFlagProvider({ children }: { children: React.ReactNode }) {
+  const [flags, setFlags] = useState<FeatureFlags>({
+    isNewProductsUIEnabled: false
+  });
+  
+  useEffect(() => {
+    fetch('/config.json')
+      .then(res => res.json())
+      .then(setFlags);
+  }, []);
+  
+  return (
+    <FeatureFlagContext.Provider value={flags}>
+      {children}
+    </FeatureFlagContext.Provider>
+  );
+}
+
+export function useFeatureFlag(flagName: keyof FeatureFlags) {
+  const flags = useContext(FeatureFlagContext);
+  if (!flags) throw new Error('useFeatureFlag must be used within FeatureFlagProvider');
+  return flags[flagName];
+}
+```
+
+**Usage in Components:**
+
+```js
+function ProductPage() {
+  const newUIEnabled = useFeatureFlag('isNewProductsUIEnabled');
+  
+  return (
+    <div>
+      {newUIEnabled ? (
+        <NewProductInterface />
+      ) : (
+        <LegacyProductInterface />
+      )}
+    </div>
+  );
+}
+```
 
 ### Monorepo Architecture
 
