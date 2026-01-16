@@ -344,9 +344,176 @@ Design patterns in React are proven, reusable ways to structure components and m
 - Headless Component Pattern
 
 
-
-Slot / Children-as-API Pattern
 Examples: https://refine.dev/blog/react-design-patterns/#introduction
+
+
+#### Compound Components
+
+Compound Components is a design pattern where multiple components work together to form a cohesive unit. The parent component manages shared state, and child components consume that state implicitly through Context.
+
+
+##### Why Use Compound Components?
+
+- **Flexible API**: Users can compose components in any order
+- **Implicit State Sharing**: No prop drilling between related components
+- **Separation of Concerns**: Each sub-component handles its own rendering
+- **Customizable**: Users can add their own markup between components
+- **Readable JSX**: Clear, declarative component structure
+
+
+**Traditional Props Approach:**
+
+```js
+<Tabs
+  tabs={[
+    { id: 'desc', label: 'Description', content: <Description /> },
+    { id: 'reviews', label: 'Reviews', content: <Reviews /> },
+  ]}
+/>
+```
+
+**Compound Components Approach:**
+
+```js
+<Tabs defaultTab="desc">
+  <Tabs.List>
+    <Tabs.Tab id="desc">Description</Tabs.Tab>
+    <Tabs.Tab id="reviews">Reviews</Tabs.Tab>
+  </Tabs.List>
+  <Tabs.Panels>
+    <Tabs.Panel id="desc"><Description /></Tabs.Panel>
+    <Tabs.Panel id="reviews"><Reviews /></Tabs.Panel>
+  </Tabs.Panels>
+</Tabs>
+```
+
+The Compound Components approach is more flexible, readable, and allows for custom markup between components.
+
+
+##### Example: Tabs Component
+
+```js
+import { createContext, useContext, useState, ReactNode } from 'react';
+
+interface TabsContextType {
+  activeTab: string;
+  setActiveTab: (id: string) => void;
+}
+
+const TabsContext = createContext<TabsContextType | null>(null);
+
+function useTabs() {
+  const context = useContext(TabsContext);
+  if (!context) {
+    throw new Error('Tabs components must be used within a Tabs provider');
+  }
+  return context;
+}
+
+interface TabsProps {
+  children: ReactNode;
+  defaultTab: string;
+  onChange?: (tabId: string) => void;
+}
+
+function Tabs({ children, defaultTab, onChange }: TabsProps) {
+  const [activeTab, setActiveTab] = useState(defaultTab);
+
+  const handleTabChange = (id: string) => {
+    setActiveTab(id);
+    onChange?.(id);
+  };
+
+  return (
+    <TabsContext.Provider value={{ activeTab, setActiveTab: handleTabChange }}>
+      <div className="tabs">{children}</div>
+    </TabsContext.Provider>
+  );
+}
+
+function TabList({ children }: { children: ReactNode }) {
+  return (
+    <div className="tab-list" role="tablist">
+      {children}
+    </div>
+  );
+}
+
+interface TabProps {
+  children: ReactNode;
+  id: string;
+  disabled?: boolean;
+}
+
+function Tab({ children, id, disabled = false }: TabProps) {
+  const { activeTab, setActiveTab } = useTabs();
+  const isActive = activeTab === id;
+
+  return (
+    <button
+      role="tab"
+      aria-selected={isActive}
+      aria-controls={`panel-${id}`}
+      className={`tab ${isActive ? 'tab--active' : ''}`}
+      onClick={() => !disabled && setActiveTab(id)}
+      disabled={disabled}
+    >
+      {children}
+    </button>
+  );
+}
+
+function TabPanels({ children }: { children: ReactNode }) {
+  return <div className="tab-panels">{children}</div>;
+}
+
+interface TabPanelProps {
+  children: ReactNode;
+  id: string;
+}
+
+function TabPanel({ children, id }: TabPanelProps) {
+  const { activeTab } = useTabs();
+
+  if (activeTab !== id) return null;
+
+  return (
+    <div role="tabpanel" id={`panel-${id}`} className="tab-panel">
+      {children}
+    </div>
+  );
+}
+
+Tabs.List = TabList;
+Tabs.Tab = Tab;
+Tabs.Panels = TabPanels;
+Tabs.Panel = TabPanel;
+
+export { Tabs };
+```
+
+
+```js
+function ProductPage() {
+  return (
+    <Tabs defaultTab="description" onChange={(tab) => console.log('Tab:', tab)}>
+      <Tabs.List>
+        <Tabs.Tab id="description">Description</Tabs.Tab>
+        <Tabs.Tab id="shipping">Shipping</Tabs.Tab>
+      </Tabs.List>
+
+      <Tabs.Panels>
+        <Tabs.Panel id="description">
+          <p>This product is amazing...</p>
+        </Tabs.Panel>
+        <Tabs.Panel id="shipping">
+          <p>Free shipping on orders over $50</p>
+        </Tabs.Panel>
+      </Tabs.Panels>
+    </Tabs>
+  );
+}
+```
 
 
 ### Feature Flags
