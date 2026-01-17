@@ -338,14 +338,36 @@ Design patterns in React are proven, reusable ways to structure components and m
 - Higher-Order Components (HOC)
 - Context Provider Pattern
 - Dependency Injection (via Context)
-- Lifting State Up
-- Polling Pattern
 - Memoization (React.memo, useMemo, useCallback)
 - Headless Component Pattern
 
 
 Examples: https://refine.dev/blog/react-design-patterns/#introduction
 
+
+#### Headless Component Pattern
+The Headless Component Pattern is a UI design pattern where a component contains logic and behavior only, but no visual rendering or styles. The UI (markup, styles, layout) is fully controlled by the consumer.
+
+```js
+export const useToggle = () => {
+  const [on, setOn] = useState(false);
+  const toggle = () => setOn(o => !o);
+
+  return { on, toggle };
+}
+```
+
+```js
+const Toggle = () => {
+  const { on, toggle } = useToggle();
+
+  return (
+    <div onClick={toggle}>
+      <span>{on ? "Good morning" : "Good evening"}</span>
+    </div>
+  );
+}
+```
 
 #### Compound Components
 
@@ -536,7 +558,7 @@ function ProductList() {
 }
 ```
 
-Feature flags decouple deployment from release — you can deploy code with features turned off, then enable them remotely when ready.
+Feature flags decouple deployment from release, so you can deploy code with features turned off, then enable them remotely when ready.
 
 #### Types of Feature Flags
 
