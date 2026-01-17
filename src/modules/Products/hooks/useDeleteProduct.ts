@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useProducts } from "..";
+import type { Product } from "../entities/Product";
 import { useGetAllProducts } from "./useGetAllProducts";
 
 export const useDeleteProduct = ({ onSuccess }: { onSuccess: () => void }) => {
@@ -9,8 +10,13 @@ export const useDeleteProduct = ({ onSuccess }: { onSuccess: () => void }) => {
 
   const { mutate, isError, isPending, isSuccess } = useMutation({
     mutationFn: deleteProduct,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [useGetAllProducts.queryKey] });
+    onSuccess: (_data, productId) => {
+      queryClient.setQueryData(
+        [useGetAllProducts.queryKey],
+        (old: Product[]) => {
+          return old.filter((product) => product.id !== productId);
+        }
+      );
       onSuccess();
     },
   });
