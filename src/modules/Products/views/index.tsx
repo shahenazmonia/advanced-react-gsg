@@ -1,4 +1,5 @@
 import { Grid, Title } from "@mantine/core";
+import { useFeatureFlags } from "../../FeatureFlags";
 import { useGetAllProducts } from "../hooks/useGetAllProducts";
 import { Product } from "./Product";
 
@@ -8,9 +9,14 @@ export const Products = () => {
     productsWithDiscountHigherThan10,
     productsWithDiscountLowerThan10,
   } = useGetAllProducts();
+  const { isProductsNewUIEnabled } = useFeatureFlags();
 
   if (isEmpty) {
     return <Title> No products available </Title>;
+  }
+
+  if (isProductsNewUIEnabled) {
+    return <Title>New UI for Products is Enabled</Title>;
   }
 
   return (
