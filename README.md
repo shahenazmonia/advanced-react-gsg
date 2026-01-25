@@ -649,4 +649,103 @@ function ProductPage() {
 
 ### Monorepo Architecture
 
+#### What is a Monorepo?
+
+A monorepo (monolithic repository) is a software development strategy where multiple projects, packages, or services are stored in a single version-controlled repository. Instead of having separate repositories for each project (polyrepo), all related code lives together in one unified codebase.
+
+```
+monorepo/
+├── apps/
+│   ├── web/                 # Main web application
+│   └── admin/               # Admin dashboard
+├── packages/
+│   ├── ui/                  # Shared UI components
+│   ├── utils/               # Shared utilities
+│   ├── config/              # Shared configurations
+│   └── types/               # Shared TypeScript types
+├── package.json             # Root package.json
+├── pnpm-workspace.yaml      # Workspace configuration
+└── turbo.json               # Build orchestration (if using Turborepo)
+```
+
+#### Why Use a Monorepo?
+
+**The Problem with Multiple Repositories (Polyrepo)**
+
+When projects are split across multiple repositories:
+- Code duplication becomes common
+- Sharing code requires publishing to npm
+- Dependency versions drift between projects
+- Cross-project refactoring is painful
+- Onboarding new developers takes longer
+
+**The Monorepo Solution**
+
+A monorepo addresses these issues by keeping everything in one place, allowing teams to share code directly, maintain consistent dependencies, and make atomic changes across multiple projects.
+
+#### Benefits of Using a Monorepo
+
+##### 1. Code Sharing and Reusability
+- Share components, utilities, and types across applications without publishing packages
+- Changes to shared code are immediately available to all consumers
+- No need to manage complex internal package versioning
+
+```js
+import { Button } from '@myorg/ui';
+import { formatDate } from '@myorg/utils';
+import type { User } from '@myorg/types';
+```
+
+##### 2. Consistent Tooling and Standards
+- Single ESLint, Prettier, and TypeScript configuration
+- Consistent CI/CD pipelines
+- One place to update development dependencies
+
+##### 3. Simplified Dependency Management
+- Single `node_modules` at the root
+- All projects use the same version of shared dependencies
+- Easier security audits and updates
+- No dependency version conflicts between projects
+
+```js
+monorepo/
+├── node_modules/           # Root node_modules (shared dependencies)
+├── apps/
+│   ├── web/
+│   │   └── node_modules/   # App-specific dependencies + symlinks
+│   └── admin/
+│       └── node_modules/   # App-specific dependencies + symlinks
+├── packages/
+│   └── ui/
+│       └── node_modules/   # Package-specific dependencies + symlinks
+└── pnpm-workspace.yaml
+```
+
+##### 4. Better Developer Experience
+- Clone once, access everything
+- Single IDE workspace for all projects
+- Easier code navigation and discovery
+- Simplified debugging across project boundaries
+
+#### Monorepo Tools
+
+- **pnpm Workspaces** => Fast, disk-efficient package manager with built-in workspace support
+- **Turborepo** => High-performance build system with caching and parallel execution
+
+
+#### When to Use a Monorepo
+
+**Good Fit:**
+- Multiple related applications (web, mobile, admin)
+- Shared component libraries or design systems
+- Microservices with shared contracts/types
+- Projects with significant code overlap
+- Teams that frequently collaborate across projects
+
+**Not Ideal For:**
+- Completely unrelated projects
+- Very large organizations with strict team boundaries
+- Projects with vastly different tech stacks
+- When repository access control is critical
+
 ### Design System
