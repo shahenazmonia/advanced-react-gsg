@@ -748,4 +748,44 @@ monorepo/
 - Projects with vastly different tech stacks
 - When repository access control is critical
 
+
+**Target Structure**
+
+advanced-react-gsg/
+├── apps/
+│   ├── web/
+|   |   ├── public/
+│   │   ├── src/
+│   │   │   |── main.tsx
+│   │   │   |── routes.tsx
+│   │   │   └── modules/
+│   │   │       ├── FeatureFlags/
+│   │   │       └── Products/
+│   │   ├── package.json
+│   │   ├── tsconfig.json
+│   │   ├── index.html
+│   │   └── vite.config.ts
+│   │
+│   └── admin/
+│       ├── src/
+│       │   |── main.tsx
+│       │   └── modules/
+│       │       └── Dashboard/
+│       ├── package.json
+│       ├── tsconfig.json 
+│       └── vite.config.ts
+│
+├── packages/
+│   └── ui/
+│       ├── src/
+│       ├── package.json
+│       └── tsconfig.json
+│
+├── turbo.json                  
+├── pnpm-workspace.yaml
+├── package.json                 
+├── tsconfig.base.json
+├── eslint.config.js
+└── ReadMe.md                 
+
 ### Design System
