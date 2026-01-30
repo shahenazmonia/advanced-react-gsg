@@ -789,4 +789,49 @@ advanced-react-gsg/
 └── README.md      
 ```           
 
+PNMP || NPM
+
+Pnpm:
+
+- Creates strict, isolated symlinks
+- Enforces correct dependency boundaries
+- Faster installs, less disk usage
+- Catches “phantom dependency” bugs
+
+Npm:
+
+- Uses a flat node_modules
+- Less strict dependency isolation
+- Can hide missing dependency declarations
+
+```js
+// apps/web/src/modules/Products/views/index.tsx
+import { Button } from "@repo/ui";
+import lodash from "lodash"; // not declared in web/package.json
+```
+=> npm: works (lodash is raise somewhere)
+
+=> pnpm: fails (correctly)
+
+Pnpm in monorepo:
+
+```js
+packages:
+  - "apps/*"
+  - "packages/*"
+```
+
+Npm in monorepo
+
+```js
+// main package.json
+{
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}
+```
+
 ### Design System
