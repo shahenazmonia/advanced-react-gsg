@@ -750,7 +750,7 @@ monorepo/
 
 
 **Target Structure**
-
+```js
 advanced-react-gsg/
 ├── apps/
 │   ├── web/
@@ -786,6 +786,7 @@ advanced-react-gsg/
 ├── package.json                 
 ├── tsconfig.base.json
 ├── eslint.config.js
-└── ReadMe.md                 
+└── ReadMe.md      
+```           
 
 ### Design System
