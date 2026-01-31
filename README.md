@@ -835,3 +835,20 @@ Npm in monorepo
 ```
 
 ### Design System
+
+A design system is a shared set of rules, components, and standards that define how a product looks and behaves—and how it’s built.
+
+Think of it as the single source of truth for UI + UX + front-end implementation.
+
+##### What a design system includes
+
+1. Design foundations (the rules)
+- Colors (primary, secondary, semantic colors)
+- Typography (fonts, sizes, line heights)
+- Spacing & layout scale
+- Border radius, shadows, motion
+- Accessibility rules (contrast, focus states)
+
+
+2. Reusable UI components
+- Implemented as React components, for example: Button / Input / Select / Modal / Drawer
