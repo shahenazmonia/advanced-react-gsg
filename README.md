@@ -852,3 +852,73 @@ Think of it as the single source of truth for UI + UX + front-end implementation
 
 2. Reusable UI components
 - Implemented as React components, for example: Button / Input / Select / Modal / Drawer
+
+##### Why we need a design system in React projects
+1. Consistency (the biggest win)
+
+Without a design system:
+- Every dev styles buttons slightly differently
+- Colors drift
+
+With a design system:
+- One `<Button />` everywhere
+- Same spacing, same hover, same focus
+
+2. Easier maintenance & scaling
+- When design changes, update the Button once and every screen updates automatically
+
+3. Faster development
+
+Instead of:
+```js
+<button className="px-4 py-2 bg-blue-500 rounded">
+```
+We do:
+```js
+<Button variant="primary" />
+```
+
+#### Design System Package Structure
+
+The design system lives in `packages/ui/` and follows a modular architecture that separates concerns into distinct layers:
+
+```
+packages/ui/
+├── src/
+│   ├── components/            
+│   │   ├── Button/
+│   │   │   ├── index.tsx
+│   │   │   └── style.module.css
+│   │   └── Text/
+│   │       ├── index.tsx
+│   │       ├── style.module.css
+│   │       └── types.ts
+│   │
+│   ├── css/                
+│   │   ├── variables/          
+│   │   │   ├── index.css       
+│   │   │   ├── colors.css       
+│   │   │   ├── typography.css  
+│   │   │
+│   │   ├── classes/          
+│   │   │   ├── index.css    
+│   │   │   └── colors.css     
+│   │   └── index.css          
+│   │
+│   ├── types/             
+│   │   ├── Color.ts           
+│   │   ├── Spacing.ts        
+│   │   └── Text.ts        
+│   │
+│   └── index.ts              
+│
+├── package.json
+├── tsconfig.json
+└── postcss.config.js         
+```
+
+
+
+
+
+
